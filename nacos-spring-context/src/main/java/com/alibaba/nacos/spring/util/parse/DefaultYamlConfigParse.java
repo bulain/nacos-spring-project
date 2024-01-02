@@ -54,11 +54,11 @@ public class DefaultYamlConfigParse extends AbstractConfigParse {
 			.getLogger(DefaultYamlConfigParse.class);
 	
 	protected static Yaml createYaml() {
-		MapAppenderConstructor mapAppenderConstructor = new MapAppenderConstructor();
-		Representer representer = new Representer();
-		DumperOptions dumperOptions = new DumperOptions();
-		LimitedResolver resolver = new LimitedResolver();
 		LoaderOptions loaderOptions = new LoaderOptions();
+		DumperOptions dumperOptions = new DumperOptions();
+		MapAppenderConstructor mapAppenderConstructor = new MapAppenderConstructor(loaderOptions);
+		Representer representer = new Representer(dumperOptions);
+		LimitedResolver resolver = new LimitedResolver();
 		loaderOptions.setAllowDuplicateKeys(false);
 		return new Yaml(mapAppenderConstructor, representer, dumperOptions, loaderOptions, resolver);
 	}
@@ -199,8 +199,8 @@ public class DefaultYamlConfigParse extends AbstractConfigParse {
 
 	protected static class MapAppenderConstructor extends Constructor {
 
-		MapAppenderConstructor() {
-			super();
+		MapAppenderConstructor(LoaderOptions loaderOptions) {
+			super(loaderOptions);
 		}
 
 		@Override
@@ -214,9 +214,8 @@ public class DefaultYamlConfigParse extends AbstractConfigParse {
 			}
 		}
 
-		@Override
 		protected Map<Object, Object> createDefaultMap() {
-			final Map<Object, Object> delegate = super.createDefaultMap();
+			final Map<Object, Object> delegate = super.createDefaultMap(16);
 			return new AbstractMap<Object, Object>() {
 				@Override
 				public Object put(Object key, Object value) {
