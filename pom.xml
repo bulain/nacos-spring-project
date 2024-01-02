@@ -189,6 +189,20 @@
 
     <profiles>
         <profile>
+            <id>rdc</id>
+            <distributionManagement>
+                <repository>
+                    <id>rdc-releases</id>
+                    <url>https://packages.aliyun.com/maven/repository/2001275-release-LNOerM/</url>
+                </repository>
+                <snapshotRepository>
+                    <id>rdc-snapshots</id>
+                    <url>https://packages.aliyun.com/maven/repository/2001275-snapshot-a4bJHX/</url>
+                </snapshotRepository>
+            </distributionManagement>
+        </profile>
+
+        <profile>
             <id>release</id>
             <build>
                 <plugins>
